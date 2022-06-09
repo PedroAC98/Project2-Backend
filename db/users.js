@@ -2,6 +2,30 @@ const { getConnection } = require('./db');
 const bcrypt = require('bcrypt');
 const { generateError } = require('../helpers');
 
+// Devuelve la información de un user por su id
+
+const getUserById = async (id) => {
+  let connection;
+
+  try {
+    connection = await getConnection();
+
+    const [result] = await connection.query(
+      `
+        SELECT id, email, created_at FROM users WHERE id = ?
+      `,
+      [id]
+    );
+    console.log(result);
+    if (result.length === 0) {
+      throw generateError('No hay ningún usuario con esa id', 404);
+    }
+    return result[0];
+  } finally {
+    if (connection) connection.release();
+  }
+};
+
 const createUser = async (email, password) => {
   let connection;
 
@@ -37,6 +61,30 @@ const createUser = async (email, password) => {
     if (connection) connection.release();
   }
 };
+
+const getUserByEmail = async (email) => {
+  let connection;
+
+  try {
+    connection = await getConnection();
+
+    const [result] = await connection.query(
+      `
+        SELECT * FROM users WHERE email = ?
+      `,
+      [email]
+    );
+    console.log(result);
+    if (result.length === 0) {
+      throw generateError('No hay ningún usuario con ese email', 404);
+    }
+    return result[0];
+  } finally {
+    if (connection) connection.release();
+  }
+};
 module.exports = {
   createUser,
+  getUserById,
+  getUserByEmail,
 };

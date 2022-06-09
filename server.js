@@ -2,16 +2,31 @@ require('dotenv').config();
 
 const express = require('express');
 const morgan = require('morgan');
-const { newUserController } = require('./controllers/users');
+const fileUpload = require('express-fileupload');
+const { authUser } = require('./middlewares/auth');
+const {
+  newUserController,
+  getUserController,
+  loginController,
+} = require('./controllers/users');
+
+const {
+  newRecommendationController,
+} = require('./controllers/recommendations');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(fileUpload());
 
 // RUTAS
 
 app.post('/user', newUserController);
+app.get('/user/:id', getUserController);
+app.post('/login', loginController);
+
+app.post('/', authUser, newRecommendationController);
 
 // Middleware de 404
 app.use((req, res) => {
