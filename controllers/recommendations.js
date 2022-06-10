@@ -2,7 +2,13 @@ const Joi = require('@hapi/joi');
 const { generateError, createPathIfNotExists } = require('../helpers');
 const sharp = require('sharp');
 const path = require('path');
-const { createRecommendation } = require('../db/recommendations');
+const {
+  createRecommendation,
+  getRecommendationById,
+  deleteRecommendationById,
+  getAllRecommendations,
+  voteRecommendationById,
+} = require('../db/recommendations');
 
 const newRecommendationController = async (req, res, next) => {
   try {
@@ -38,7 +44,7 @@ const newRecommendationController = async (req, res, next) => {
     image.resize(1000);
 
     // Guardo la imagen con un nombre aleatorio en el directorio uploads
-    imageFileName = req.files.image.md5;
+    imageFileName = `${req.files.image.md5}.jpg`;
     await image.toFile(path.join(uploadsDir, imageFileName));
 
     const id = await createRecommendation(
@@ -60,6 +66,69 @@ const newRecommendationController = async (req, res, next) => {
   }
 };
 
+const getAllRecommendationsController = async (req, res, next) => {
+  try {
+    const { category, place } = req.query;
+    const recommendations = await getAllRecommendations(category, place);
+
+    res.send({
+      status: 'Ok ',
+      data: recommendations,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getSingleRecommendationController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const recommendation = await getRecommendationById(id);
+    res.send({
+      status: 'Ok ',
+      data: recommendation,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteRecommendationController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const recommendation = await getRecommendationById(id);
+    if (req.userId !== recommendation.user_id) {
+      throw generateError(
+        'You are trying to delete a recommendation that isnt yours',
+        401
+      );
+    }
+    await deleteRecommendationById(id);
+    res.send({
+      status: 'Ok',
+      message: `Recommendation with id: ${id} deleted`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const voteRecommendationController = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await voteRecommendationById(id);
+    res.send({
+      status: 'Ok',
+      message: `Recommendation with id: ${id} voted`,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 module.exports = {
   newRecommendationController,
+  getSingleRecommendationController,
+  deleteRecommendationController,
+  getAllRecommendationsController,
+  voteRecommendationController,
 };

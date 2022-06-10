@@ -12,6 +12,10 @@ const {
 
 const {
   newRecommendationController,
+  getSingleRecommendationController,
+  deleteRecommendationController,
+  getAllRecommendationsController,
+  voteRecommendationController,
 } = require('./controllers/recommendations');
 
 const app = express();
@@ -19,6 +23,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(fileUpload());
+app.use('/uploads', express.static('./uploads'));
 
 // RUTAS
 
@@ -27,6 +32,10 @@ app.get('/user/:id', getUserController);
 app.post('/login', loginController);
 
 app.post('/', authUser, newRecommendationController);
+app.get('/recommendation/:id', getSingleRecommendationController);
+app.delete('/recommendation/:id', authUser, deleteRecommendationController);
+app.get('/recommendations', getAllRecommendationsController);
+app.post('/recommendation/vote/:id', authUser, voteRecommendationController);
 
 // Middleware de 404
 app.use((req, res) => {

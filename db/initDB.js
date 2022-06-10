@@ -14,15 +14,6 @@ async function main() {
     console.log('creando tablas');
 
     await connection.query(`
-        CREATE TABLE users  (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            email VARCHAR(100) UNIQUE NOT NULL,
-            password VARCHAR(100) NOT NULL,
-            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-        );
-    `);
-
-    await connection.query(`
             CREATE TABLE recommendations(
                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 user_id INTEGER NOT NULL,
@@ -36,6 +27,15 @@ async function main() {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users(id)
             );
+    `);
+
+    await connection.query(`
+        CREATE TABLE users  (
+            id INTEGER PRIMARY KEY AUTO_INCREMENT,
+            email VARCHAR(100) UNIQUE NOT NULL,
+            password VARCHAR(100) NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        );
     `);
   } catch (error) {
     console.error(error);
