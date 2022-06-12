@@ -61,22 +61,39 @@ const deleteRecommendationById = async (id) => {
   }
 };
 
-const getAllRecommendations = async (category, place) => {
+const getAllRecommendations = async (category, place, votes) => {
   let connection;
   try {
     connection = await getConnection();
     let recommendations;
-    if (category || place) {
+    if ((category || place) && votes !== 'yes') {
       [recommendations] = await connection.query(
         `
           SELECT * FROM recommendations 
           WHERE category LIKE ? ||
           place LIKE ?
-          ORDER BY votes DESC
+          ORDER BY created_at DESC
         `,
         [`%${category}%`, `%${place}%`]
       );
-    } else {
+    } else if ((category || place) && votes === 'yes') {
+      [recommendations] = await connection.query(
+        `
+          SELECT * FROM recommendations 
+          WHERE category LIKE ? ||
+          place LIKE ?
+          ORDER BY created_at DESC
+        `,
+        [`%${category}%`, `%${place}%`]
+      );
+    } else if (!category && !place && votes !== 'yes') {
+      [recommendations] = await connection.query(
+        `
+          SELECT * FROM recommendations
+          ORDER BY created_at DESC
+        `
+      );
+    } else if (!category && !place && votes === 'yes') {
       [recommendations] = await connection.query(
         `
           SELECT * FROM recommendations

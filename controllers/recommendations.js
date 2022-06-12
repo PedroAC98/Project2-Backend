@@ -68,8 +68,8 @@ const newRecommendationController = async (req, res, next) => {
 
 const getAllRecommendationsController = async (req, res, next) => {
   try {
-    const { category, place } = req.query;
-    const recommendations = await getAllRecommendations(category, place);
+    const { category, place, votes } = req.query;
+    const recommendations = await getAllRecommendations(category, place, votes);
 
     res.send({
       status: 'Ok ',
