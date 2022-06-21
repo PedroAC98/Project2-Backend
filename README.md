@@ -1,3 +1,5 @@
+# PEDRO ACUÑA CIUDAD Y DANIEL SOSA
+
 ## ENTIDADES
 
     USER:
@@ -6,7 +8,7 @@
     -PASSWORD
     -CREATED_AT
 
-    RECOMENDACIONES:
+    RECOMMENDATIONS:
     - ID
     - USER
     -TITULO
@@ -19,12 +21,17 @@
 
 ## ENDPOINTS
 
+    #USER:
+
     ** POST /user -> Registro de usuario
     ** GET /user/:id  Informacion del usuario
     ** POST /login -> Login del usuario (devuelve un token jwt)
+
+    #RECOMMENDATIONS
+
+
     ** POST / -> Permite crear una recomendacion ( necesita cabecera con token)
-    ** GET / -> Lista de todas las recomendaciones
-    ** GET /recomendation/:id -> Lista detallada de la recomendacion
-    ** GET /bestrating -> Lista ordenada de las recomendaciones por votos
-    ** GET /recomendation/:place -> Lista de recomendaciones por lugar
-    ** GET /recomendation/:category -> Lista de recomendaciones por categoria
+    ** GET /recommendations?category&place&votes -> Lista de todas las recomendaciones con filtro por lugar y categoria, y posibilidad de ordernar por cantidad de votos
+    ** GET /recomendation/:id -> Lista detallada de la recomendación
+    ** DELETE /recomendation/:id -> Borrar una recomendación (necesita cabecera con token)
+    ** POST /recommendation/votes/:id -> Votar una recomendación (necesita cabecera con token)
