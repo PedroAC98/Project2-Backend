@@ -97,6 +97,7 @@ const deleteRecommendationController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const recommendation = await getRecommendationById(id);
+    console.log(req.userId);
     if (req.userId !== recommendation.user_id) {
       throw generateError(
         'You are trying to delete a recommendation that isnt yours',
@@ -116,10 +117,11 @@ const deleteRecommendationController = async (req, res, next) => {
 const voteRecommendationController = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await voteRecommendationById(id);
+    const value = await voteRecommendationById(req.userId, id);
+    console.log(value);
     res.send({
       status: 'Ok',
-      message: `Recommendation with id: ${id} voted`,
+      message: value ? 'Like agregado' : 'Like eliminado',
     });
   } catch (error) {
     next(error);

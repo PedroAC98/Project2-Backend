@@ -12,7 +12,7 @@ const getUserById = async (id) => {
 
     const [result] = await connection.query(
       `
-        SELECT id, email, created_at FROM users WHERE id = ?
+        SELECT id, username, created_at FROM users WHERE id = ?
       `,
       [id]
     );
@@ -26,7 +26,7 @@ const getUserById = async (id) => {
   }
 };
 
-const createUser = async (email, password) => {
+const createUser = async (email, password, username) => {
   let connection;
 
   try {
@@ -35,13 +35,16 @@ const createUser = async (email, password) => {
     // Buscamos un usuario con el email que le pasamos
     const [user] = await connection.query(
       `
-        SELECT * FROM users WHERE email = ?
+        SELECT * FROM users WHERE email = ? OR username = ? 
           `,
-      [email]
+      [email, username]
     );
     // Si existe, lanzamos error de que solo puede haber un usuario con el mismo email
     if (user.length > 0) {
-      throw generateError('Ya existe un usuario con ese email', 409);
+      throw generateError(
+        'Ya existe un usuario con ese email o ese nombre de usuario',
+        409
+      );
     }
     // Si no existe, encriptamos la password
     const passwordHash = await bcrypt.hash(password, 6);
@@ -49,9 +52,9 @@ const createUser = async (email, password) => {
     // Creamos el user en la base de datos
     const [newUser] = await connection.query(
       `
-        INSERT INTO users (email, password) VALUES(?,?)
+        INSERT INTO users (email, password,username) VALUES(?,?,?)
         `,
-      [email, passwordHash]
+      [email, passwordHash, username]
     );
 
     //Devolvemos la id de ese user

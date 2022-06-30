@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"pedro@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"raw": "{\r\n    \"email\": \"pedro2@gmail.com\",\r\n    \"password\": \"12345\",\r\n    \"username\": \"pedrito2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -43,7 +43,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/user/1",
+							"raw": "http://localhost:3000/user/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -51,7 +51,7 @@
 							"port": "3000",
 							"path": [
 								"user",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"pedro@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
+							"raw": "{\r\n    \"email\": \"pedro2@gmail.com\",\r\n    \"password\": \"12345\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -97,18 +97,44 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjU0NzcyNDE4LCJleHAiOjE2NTczNjQ0MTh9.SvdvwcPW3pgm9tV6c2BOFe9kLnJBMsEzJCNlwAToSPU",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NjA0MDg5LCJleHAiOjE2NTkxOTYwODl9.K-UX0SmIPFMr5MwXFxT84zkNJZ747T3aQvo1k73FagY",
 								"type": "text"
 							}
 						],
 						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\" : \"Retiro\",\r\n    \"category\": \"Excursión\",\r\n    \"place\": \"Madrid\",\r\n    \"leadin\": \"Un buen plan para hacer en el Retiro\",\r\n    \"text\": \"Puedes duniwqndiuqwdnqwdiuq dnqwdiu nqwiudn quiwndiuqnw iunwinudwqidw \"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "dasdas",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "Viaje",
+									"type": "text"
+								},
+								{
+									"key": "place",
+									"value": "Madrid",
+									"type": "text"
+								},
+								{
+									"key": "leadin",
+									"value": "dsadas",
+									"type": "text"
+								},
+								{
+									"key": "text",
+									"value": "Puedes duniwqndiuqwdnqwdiuq dnqwdiu nqwiudn quiwndiuqnw iunwinudwqidw",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/pedri/Desktop/retiro.jpg"
 								}
-							}
+							]
 						},
 						"url": {
 							"raw": "http://localhost:3000/",
@@ -128,7 +154,19 @@
 					"name": "Get single Recommendation",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/recommendations/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recommendations",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -139,20 +177,20 @@
 						"header": [
 							{
 								"key": "Authorization",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjU0NzcyNDE4LCJleHAiOjE2NTczNjQ0MTh9.SvdvwcPW3pgm9tV6c2BOFe9kLnJBMsEzJCNlwAToSPU",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNjU2NjA1MTgzLCJleHAiOjE2NTkxOTcxODN9.2yi_u1ipOx5O7zKQNBVTdRLdUC0heKbNCLhcD9EA30I",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "http://localhost:3000/recommendation/5",
+							"raw": "http://localhost:3000/recommendations/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"recommendation",
-								"5"
+								"recommendations",
+								"1"
 							]
 						}
 					},
@@ -162,15 +200,55 @@
 					"name": "Get All Recommendations",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/recommendations?votes=yes&place=madrid",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recommendations"
+							],
+							"query": [
+								{
+									"key": "votes",
+									"value": "yes"
+								},
+								{
+									"key": "place",
+									"value": "madrid"
+								}
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Vote recommendation",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjU2NjA2NjUzLCJleHAiOjE2NTkxOTg2NTN9.FPZDgThswli_KSLPuwgYt8lO7GgS9RVAj161s22U0h4",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/recommendations/vote/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"recommendations",
+								"vote",
+								"1"
+							]
+						}
 					},
 					"response": []
 				}

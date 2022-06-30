@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const fileUpload = require('express-fileupload');
 const { authUser } = require('./middlewares/auth');
@@ -20,6 +21,8 @@ const {
 
 const app = express();
 
+app.use(cors());
+
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(fileUpload());
@@ -32,10 +35,10 @@ app.get('/user/:id', getUserController);
 app.post('/login', loginController);
 
 app.post('/', authUser, newRecommendationController);
-app.get('/recommendation/:id', getSingleRecommendationController);
-app.delete('/recommendation/:id', authUser, deleteRecommendationController);
+app.get('/recommendations/:id', getSingleRecommendationController);
+app.delete('/recommendations/:id', authUser, deleteRecommendationController);
 app.get('/recommendations', getAllRecommendationsController);
-app.post('/recommendation/vote/:id', authUser, voteRecommendationController);
+app.post('/recommendations/vote/:id', authUser, voteRecommendationController);
 
 // Middleware de 404
 app.use((req, res) => {
