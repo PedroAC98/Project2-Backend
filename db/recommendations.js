@@ -37,8 +37,10 @@ const getRecommendationById = async (id) => {
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
+        
         LEFT JOIN users U
         ON R.user_id = U.id
+        WHERE R.id = ?
         GROUP BY R.id
 
       `,
