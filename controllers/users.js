@@ -23,7 +23,7 @@ const newUserController = async (req, res, next) => {
 
     const id = await createUser(email, password, username);
     res.send({
-      status: 'ok',
+      status: 'Ok',
       message: `Usuario creado con la id: ${id}`,
     });
   } catch (error) {
@@ -37,7 +37,7 @@ const getUserController = async (req, res, next) => {
     const user = await getUserById(id);
 
     res.send({
-      status: 'ok',
+      status: 'Ok',
       data: user,
     });
   } catch (error) {
@@ -75,9 +75,9 @@ const loginController = async (req, res, next) => {
       expiresIn: '30d',
     });
 
-    // Envio el token
+    // Envio el token y el id
     res.send({
-      status: 'ok',
+      status: 'Ok',
       data: token,
     });
   } catch (error) {

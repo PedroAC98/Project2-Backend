@@ -119,7 +119,7 @@ const voteRecommendationController = async (req, res, next) => {
   try {
     const { id } = req.params;
     const value = await voteRecommendationById(req.userId, id);
-    console.log(value);
+
     res.send({
       status: 'Ok',
       message: value ? 'Like agregado' : 'Like eliminado',

@@ -33,7 +33,7 @@ const getRecommendationById = async (id) => {
     connection = await getConnection();
     const [recommendation] = await connection.query(
       `
-        SELECT  U.username AS CreatedBy, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
+        SELECT  U.username AS created_by, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
@@ -75,10 +75,10 @@ const getAllRecommendations = async (category, place, votes) => {
   try {
     connection = await getConnection();
     let recommendations;
-    if ((category || place) && votes !== 'yes') {
+    if ((category || place) && votes !== 'des') {
       [recommendations] = await connection.query(
         `
-        SELECT  U.username AS CreatedBy, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
+        SELECT  U.username AS created_by, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
@@ -91,10 +91,10 @@ const getAllRecommendations = async (category, place, votes) => {
         `,
         [`%${category}%`, `%${place}%`]
       );
-    } else if ((category || place) && votes === 'yes') {
+    } else if ((category || place) && votes === 'des') {
       [recommendations] = await connection.query(
         `
-        SELECT  U.username AS CreatedBy, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
+        SELECT  U.username AS created_by, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
@@ -107,10 +107,10 @@ const getAllRecommendations = async (category, place, votes) => {
         `,
         [`%${category}%`, `%${place}%`]
       );
-    } else if (!category && !place && votes !== 'yes') {
+    } else if (!category && !place && votes !== 'des') {
       [recommendations] = await connection.query(
         `
-          SELECT  U.username AS CreatedBy, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
+          SELECT  U.username AS created_by, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
@@ -120,10 +120,10 @@ const getAllRecommendations = async (category, place, votes) => {
         ORDER BY created_at DESC
         `
       );
-    } else if (!category && !place && votes === 'yes') {
+    } else if (!category && !place && votes === 'des') {
       [recommendations] = await connection.query(
         `
-        SELECT  U.username AS CreatedBy, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
+        SELECT  U.username AS created_by, R.id, R.user_id,R.title, R.category, R.place, R.leadin, R.text,R.image, SUM(IFNULL(V.value=1,0)) AS likes, R.created_at
         FROM recommendations R
         LEFT JOIN votes V
         ON R.id = V.recommendation_id
